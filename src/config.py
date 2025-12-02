@@ -22,4 +22,6 @@ def get_config():
         LR=0.01,
         DEVICE=device,
         SEED=42,
+        AGGREGATION_METHOD="fedavg",  # options: fedavg, median
+        ENABLE_CLIENT_SCORING=True,
     )

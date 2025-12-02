@@ -71,3 +71,17 @@ def fedavg(state_dicts, weights):
         for state, weight in zip(state_dicts, weights):
             avg_state[key] += state[key] * (float(weight) / total_weight)
     return avg_state
+
+
+def aggregate_median(state_dicts):
+    """
+    Coordinate-wise median aggregation over client state_dicts.
+    """
+    if not state_dicts:
+        raise ValueError("No state_dicts provided for median aggregation.")
+
+    median_state = {}
+    for key in state_dicts[0].keys():
+        stacked = torch.stack([state[key] for state in state_dicts], dim=0)
+        median_state[key] = torch.median(stacked, dim=0).values
+    return median_state
